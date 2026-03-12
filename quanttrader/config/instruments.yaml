@@ -1,0 +1,121 @@
+# ── instruments.yaml ──────────────────────────────────────────────────────────
+# Per-instrument trading costs and metadata.
+# spread: in price units (e.g. 0.0001 for 1 pip on EURUSD)
+# commission_pct: percentage of trade value
+# commission_fixed: fixed dollar amount per trade
+# slippage_pct: additional slippage percentage
+
+default:
+  spread: 0.0
+  commission_pct: 0.001   # 0.1%
+  commission_fixed: 0.0
+  slippage_pct: 0.0005    # 0.05%
+  margin_rate: 1.0        # 1 = no margin / 100% collateral
+  min_lot: 1
+  lot_size: 1
+
+instruments:
+  # ── Forex ────────────────────────────────────────────────────────────────────
+  EURUSD=X:
+    spread: 0.00003        # 0.3 pip
+    commission_pct: 0.0
+    commission_fixed: 3.5  # $3.50 per 100k
+    slippage_pct: 0.0001
+    margin_rate: 0.02      # 50:1 leverage
+    lot_size: 100000
+
+  GBPUSD=X:
+    spread: 0.00005
+    commission_pct: 0.0
+    commission_fixed: 3.5
+    slippage_pct: 0.0001
+    margin_rate: 0.02
+    lot_size: 100000
+
+  USDJPY=X:
+    spread: 0.003
+    commission_pct: 0.0
+    commission_fixed: 3.5
+    slippage_pct: 0.001
+    margin_rate: 0.02
+    lot_size: 100000
+
+  # ── US Stocks ────────────────────────────────────────────────────────────────
+  SPY:
+    spread: 0.01
+    commission_pct: 0.0
+    commission_fixed: 0.005  # $0.005 per share
+    slippage_pct: 0.0002
+    margin_rate: 0.5
+    min_lot: 1
+    lot_size: 1
+
+  QQQ:
+    spread: 0.01
+    commission_pct: 0.0
+    commission_fixed: 0.005
+    slippage_pct: 0.0002
+    margin_rate: 0.5
+    min_lot: 1
+    lot_size: 1
+
+  AAPL:
+    spread: 0.01
+    commission_pct: 0.0
+    commission_fixed: 0.005
+    slippage_pct: 0.0003
+    margin_rate: 0.5
+
+  EWA:   # iShares MSCI Australia ETF
+    spread: 0.02
+    commission_pct: 0.0
+    commission_fixed: 0.005
+    slippage_pct: 0.0005
+
+  EWC:   # iShares MSCI Canada ETF
+    spread: 0.02
+    commission_pct: 0.0
+    commission_fixed: 0.005
+    slippage_pct: 0.0005
+
+  # ── Crypto ───────────────────────────────────────────────────────────────────
+  BTC-USD:
+    spread: 5.0
+    commission_pct: 0.001   # 0.1% taker fee
+    commission_fixed: 0.0
+    slippage_pct: 0.001
+    margin_rate: 0.1        # 10x max leverage
+    min_lot: 0.001
+    lot_size: 1
+
+  ETH-USD:
+    spread: 0.5
+    commission_pct: 0.001
+    commission_fixed: 0.0
+    slippage_pct: 0.001
+    margin_rate: 0.1
+    min_lot: 0.01
+    lot_size: 1
+
+  # ── Indices ──────────────────────────────────────────────────────────────────
+  "^GSPC":   # S&P 500
+    spread: 0.25
+    commission_pct: 0.0002
+    commission_fixed: 0.0
+    slippage_pct: 0.0002
+    margin_rate: 0.05
+
+  "^IXIC":   # NASDAQ
+    spread: 1.0
+    commission_pct: 0.0002
+    commission_fixed: 0.0
+    slippage_pct: 0.0002
+    margin_rate: 0.05
+
+  GC=F:      # Gold Futures
+    spread: 0.30
+    commission_pct: 0.0
+    commission_fixed: 2.5
+    slippage_pct: 0.0002
+    margin_rate: 0.05
+    lot_size: 100

@@ -1,0 +1,23 @@
+[Unit]
+Description=QuantTrader Live Trading Bot
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=30
+User=trader
+WorkingDirectory=/opt/quanttrader
+Environment="PYTHONPATH=/opt/quanttrader"
+ExecStart=/usr/bin/python3 /opt/quanttrader/cli.py live start --config /opt/quanttrader/config/live_config.yaml
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=quanttrader
+
+# Safety: limit memory and CPU
+MemoryMax=2G
+CPUQuota=80%
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,32 @@
+version: "3.9"
+
+services:
+  quanttrader:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+    image: quanttrader:latest
+    container_name: quanttrader
+    restart: unless-stopped
+    volumes:
+      - ../data:/app/data
+      - ../logs:/app/logs
+      - ../reports:/app/reports
+      - ../models:/app/models
+      - ../.env:/app/.env:ro
+    environment:
+      - PYTHONPATH=/app
+      - TZ=America/New_York
+    command: ["run", "backtest", "--strategy", "ZScoreMeanReversion", "--symbol", "SPY"]
+
+  # Optional: Jupyter for exploration
+  jupyter:
+    image: jupyter/scipy-notebook:latest
+    ports:
+      - "8888:8888"
+    volumes:
+      - ../:/home/jovyan/work
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
+    profiles:
+      - dev

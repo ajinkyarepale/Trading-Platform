@@ -1,0 +1,33 @@
+# ── live_config.yaml ─────────────────────────────────────────────────────────
+# Configuration for the live trading engine.
+
+broker:
+  type: paper            # paper | alpaca | ibkr | mt5 | binance
+  paper_capital: 100000
+  # For Alpaca: set ALPACA_API_KEY and ALPACA_SECRET_KEY in .env
+  alpaca_paper: true
+
+strategies:
+  - name: ZScoreMeanReversion
+    symbols: ["SPY"]
+    timeframe: "1d"
+    params:
+      lookback: 60
+      entry_z: 2.0
+      exit_z: 0.5
+    schedule:
+      cron: "30 16 * * 1-5"   # Run daily at 4:30pm ET (after close)
+
+risk:
+  max_position_pct: 0.10
+  max_leverage: 1.5
+  max_drawdown_pct: 0.15
+  daily_loss_limit_pct: 0.03
+  weekly_loss_limit_pct: 0.07
+
+notifications:
+  email: false
+  slack: false
+
+timezone: "America/New_York"
+log_level: INFO

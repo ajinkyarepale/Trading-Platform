@@ -1,0 +1,51 @@
+# ============================================================
+# /etc/systemd/system/quanttrader.service
+# Systemd service for QuantTrader live bot
+#
+# Install:
+#   sudo cp quanttrader.service /etc/systemd/system/
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable quanttrader
+#   sudo systemctl start quanttrader
+# ============================================================
+
+[Unit]
+Description=QuantTrader Live Trading Bot
+After=network.target network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=quanttrader
+Group=quanttrader
+WorkingDirectory=/opt/quanttrader
+
+# Load environment from .env file
+EnvironmentFile=/opt/quanttrader/.env
+
+# The command to run
+ExecStart=/opt/quanttrader/venv/bin/python -m cli.main live start \
+    --strategy zscore \
+    --symbols AAPL,MSFT \
+    --paper \
+    --cron "0 21 * * 1-5"
+
+# Restart policy
+Restart=on-failure
+RestartSec=30
+StartLimitInterval=200
+StartLimitBurst=5
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=quanttrader
+
+# Security hardening
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ReadWritePaths=/opt/quanttrader/data /opt/quanttrader/logs
+
+[Install]
+WantedBy=multi-user.target
